@@ -66,7 +66,8 @@ const ContributionCalendar = ({
         contributed: todayContribution.contributed,
       });
     }
-  }, [activeContributions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contributions, isCombined]); // Only depend on the original props, not derived state
 
   const handleUpdateContribution = async () => {
     try {

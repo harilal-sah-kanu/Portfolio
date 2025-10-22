@@ -292,26 +292,28 @@ const Analytics = () => {
         </motion.div>
 
         {/* Overall Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 md:gap-6 mb-6 md:mb-12">
           {/* Total Problems */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="card p-6 bg-gradient-to-br from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20"
+            className="card p-2 sm:p-4 md:p-6 bg-gradient-to-br from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 rounded-lg bg-gradient-to-br from-primary-500 to-purple-500 text-white">
-                <FiTarget size={24} />
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-1 md:mb-4">
+              <div className="p-2 md:p-3 rounded-lg bg-gradient-to-br from-primary-500 to-purple-500 text-white mb-2 sm:mb-0">
+                <FiTarget size={20} className="md:w-6 md:h-6" />
               </div>
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              <span className="text-xs md:text-sm font-medium text-gray-600 dark:text-gray-400 text-center sm:text-right">
                 Total Solved
               </span>
             </div>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 text-center sm:text-left">
               {stats.totalSolved}
             </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Problems</p>
+            <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 text-center sm:text-left">
+              Problems
+            </p>
           </motion.div>
 
           {/* Contests */}
@@ -319,20 +321,20 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="card p-6 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20"
+            className="card p-2 sm:p-4 md:p-6 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 text-white">
-                <FiAward size={24} />
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-1 md:mb-4">
+              <div className="p-2 md:p-3 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 text-white mb-2 sm:mb-0">
+                <FiAward size={20} className="md:w-6 md:h-6" />
               </div>
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              <span className="text-xs md:text-sm font-medium text-gray-600 dark:text-gray-400 text-center sm:text-right">
                 Contests
               </span>
             </div>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 text-center sm:text-left">
               {stats.totalContests}
             </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 text-center sm:text-left">
               Participated
             </p>
           </motion.div>
@@ -342,20 +344,21 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="card p-6 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20"
+            className="card p-2 sm:p-4 md:p-6 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20"
           >
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-3 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 text-white">
-                <FiActivity size={24} />
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-1 md:mb-4">
+              <div className="p-2 md:p-3 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 text-white mb-2 sm:mb-0">
+                <FiActivity size={20} className="md:w-6 md:h-6" />
               </div>
               <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 Current Streak
               </span>
             </div>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
-              {getCurrentStreak()} 🔥
+            <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1 flex items-center justify-center gap-2">
+              <span>{getCurrentStreak()}</span>
+              <FiActivity className="text-orange-500" />
             </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
               Days Active
             </p>
           </motion.div>
@@ -365,9 +368,9 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="card p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20"
+            className="card p-3 sm:p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20"
           >
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2 sm:mb-4">
               <div className="p-3 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 text-white">
                 <FiCalendar size={24} />
               </div>
@@ -375,10 +378,10 @@ const Analytics = () => {
                 Active Days
               </span>
             </div>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+            <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {getTotalActiveDays()}
             </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
               Total Days
             </p>
           </motion.div>
@@ -388,9 +391,9 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="card p-6 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20"
+            className="card p-3 sm:p-6 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20"
           >
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2 sm:mb-4">
               <div className="p-3 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 text-white">
                 <FiTrendingUp size={24} />
               </div>
@@ -398,24 +401,24 @@ const Analytics = () => {
                 Stars
               </span>
             </div>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+            <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {stats.totalStars}
             </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
               Total Stars
             </p>
           </motion.div>
         </div>
 
-        {/* Platform Distribution & LeetCode Stats - Half Half */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+        {/* Platform Distribution & LeetCode Stats - Half Half - Hidden on Mobile */}
+        <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 md:mb-12">
           {/* Problems Solved by Platform */}
           {platformDistribution.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="card p-8"
+              className="card p-4 sm:p-8"
             >
               <div className="flex items-center gap-3 mb-6">
                 <FiBarChart2 className="text-2xl text-primary-600" />
@@ -426,7 +429,7 @@ const Analytics = () => {
 
               <div className="flex flex-col items-center justify-center gap-8">
                 {/* Pie Chart */}
-                <div className="relative w-56 h-56">
+                <div className="relative w-full max-w-xs mx-auto h-40 sm:h-56">
                   <svg viewBox="0 0 200 200" className="transform -rotate-90">
                     {(() => {
                       let currentAngle = 0;
@@ -559,7 +562,7 @@ const Analytics = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="card p-8"
+              className="card p-4 sm:p-8"
             >
               <div className="flex items-center gap-3 mb-6">
                 <SiLeetcode className="text-2xl text-yellow-500" />
@@ -570,7 +573,7 @@ const Analytics = () => {
 
               <div className="flex flex-col items-center justify-center gap-8">
                 {/* Pie Chart */}
-                <div className="relative w-56 h-56">
+                <div className="relative w-full max-w-xs mx-auto h-40 sm:h-56">
                   <svg viewBox="0 0 200 200" className="transform -rotate-90">
                     {(() => {
                       const data = [
@@ -740,7 +743,7 @@ const Analytics = () => {
           )}
         </div>
 
-        {/* Rating Graph - Full Width Mountain Chart */}
+        {/* Rating Graph - Full Width Mountain Chart - Hidden on Mobile */}
         {codingProfiles.filter(
           (p) => p.stats?.rating > 0 || p.stats?.maxRating > 0
         ).length > 0 && (
@@ -748,9 +751,9 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="card p-8 mb-12 w-full overflow-hidden"
+            className="hidden lg:block card p-2 sm:p-8 mb-8 md:mb-12 w-full overflow-hidden"
           >
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 sm:mb-8">
               <div className="flex items-center gap-3">
                 <FiTrendingUp className="text-3xl text-primary-600" />
                 <div>
@@ -779,7 +782,7 @@ const Analytics = () => {
               </div>
             </div>
 
-            <div className="relative w-full bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-dark-800 dark:via-dark-900 dark:to-dark-800 rounded-2xl p-8 shadow-inner overflow-hidden">
+            <div className="relative w-full bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-dark-800 dark:via-dark-900 dark:to-dark-800 rounded-2xl p-2 sm:p-8 shadow-inner overflow-hidden">
               {/* Hover Tooltip */}
               {hoveredRatingPoint && (
                 <motion.div
@@ -842,7 +845,10 @@ const Analytics = () => {
               </div>
 
               {/* Chart SVG */}
-              <div className="ml-16 mr-4" style={{ height: "400px" }}>
+              <div
+                className="ml-4 sm:ml-16 mr-2 sm:mr-4"
+                style={{ height: "220px", maxHeight: "400px" }}
+              >
                 <svg
                   className="w-full h-full"
                   viewBox="0 0 1200 400"
@@ -1118,7 +1124,7 @@ const Analytics = () => {
               </div>
 
               {/* X-axis platform labels */}
-              <div className="mt-6 ml-16 mr-4 flex justify-between items-center">
+              <div className="mt-4 sm:mt-6 ml-4 sm:ml-16 mr-2 sm:mr-4 flex justify-between items-center overflow-x-auto gap-2">
                 {codingProfiles
                   .filter((p) => p.stats?.rating > 0 || p.stats?.maxRating > 0)
                   .map((profile, index) => (
@@ -1164,14 +1170,14 @@ const Analytics = () => {
             Platform-wise Stats
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {codingProfiles.map((profile, index) => (
               <motion.div
                 key={profile._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * index }}
-                className="card p-6 hover:shadow-xl transition-shadow"
+                className="card p-3 sm:p-6 hover:shadow-xl transition-shadow"
               >
                 {/* Platform Header */}
                 <div className="flex items-center justify-between mb-4">
@@ -1316,8 +1322,8 @@ const Analytics = () => {
           )}
         </div>
 
-        {/* Contribution Calendars Section */}
-        <div className="mt-16">
+        {/* Contribution Calendars Section - Hidden on Mobile */}
+        <div className="mt-16 hidden lg:block">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

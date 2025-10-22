@@ -72,7 +72,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 dark:from-dark-900 dark:via-dark-800 dark:to-dark-900">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 dark:from-dark-900 dark:via-dark-800 dark:to-dark-900 -mt-20 pt-20">
       {/* Subtle Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div

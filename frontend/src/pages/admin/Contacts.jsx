@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { FiMail, FiTrash, FiCheck, FiClock, FiArchive } from "react-icons/fi";
+import {
+  FiMail,
+  FiTrash,
+  FiCheck,
+  FiClock,
+  FiArchive,
+  FiSend,
+} from "react-icons/fi";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import api from "../../utils/api";
@@ -49,12 +56,20 @@ const Contacts = () => {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      await api.put(`/contacts/${id}`, { status: newStatus });
+      await api.put(`/contacts/${id}/status`, { status: newStatus });
       toast.success("Status updated");
       fetchContacts();
     } catch (error) {
       toast.error("Failed to update status");
     }
+  };
+
+  const handleReply = (email, name) => {
+    const subject = `Re: Your message from Portfolio`;
+    const body = `Hi ${name},\n\nThank you for reaching out!\n\n`;
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
   };
 
   const filteredContacts =
@@ -179,7 +194,15 @@ const Contacts = () => {
                   </p>
                 </div>
 
-                <div className="flex gap-2 ml-4">
+                <div className="flex flex-wrap gap-2 ml-4">
+                  <button
+                    onClick={() => handleReply(contact.email, contact.name)}
+                    className="px-3 py-2 rounded-lg bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors flex items-center gap-2"
+                    title="Reply via email"
+                  >
+                    <FiSend size={14} />
+                    <span className="hidden sm:inline text-sm">Reply</span>
+                  </button>
                   <select
                     value={contact.status}
                     onChange={(e) =>
@@ -195,6 +218,7 @@ const Contacts = () => {
                   <button
                     onClick={() => handleDelete(contact._id)}
                     className="px-3 py-2 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+                    title="Delete message"
                   >
                     <FiTrash size={14} />
                   </button>

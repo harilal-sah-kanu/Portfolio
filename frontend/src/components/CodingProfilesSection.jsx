@@ -119,27 +119,45 @@ const CodingProfilesSection = () => {
               </h3>
 
               {/* Stats */}
-              {profile.stats?.totalSolved > 0 && (
-                <p className="text-2xl font-bold text-primary-600 mb-1">
-                  {profile.stats.totalSolved}
-                </p>
-              )}
-              {profile.stats?.rating > 0 && (
-                <p className="text-2xl font-bold text-primary-600 mb-1">
-                  {profile.stats.rating}
-                </p>
-              )}
-              {profile.stats?.totalRepos > 0 && (
-                <p className="text-2xl font-bold text-primary-600 mb-1">
-                  {profile.stats.totalRepos}
-                </p>
-              )}
-
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {profile.stats?.totalSolved > 0 && "Problems"}
-                {profile.stats?.rating > 0 && "Rating"}
-                {profile.stats?.totalRepos > 0 && "Repos"}
-              </p>
+              <div className="relative">
+                {profile.stats?.totalSolved > 0 ? (
+                  <>
+                    <p className="text-2xl font-bold text-primary-600 mb-1">
+                      {profile.stats.totalSolved}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Problems
+                    </p>
+                  </>
+                ) : profile.stats?.rating > 0 ? (
+                  <>
+                    <p className="text-2xl font-bold text-primary-600 mb-1">
+                      {profile.stats.rating}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Rating
+                    </p>
+                  </>
+                ) : profile.stats?.totalRepos > 0 ? (
+                  <>
+                    <p className="text-2xl font-bold text-primary-600 mb-1">
+                      {profile.stats.totalRepos}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Repos
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-lg font-bold text-gray-500 dark:text-gray-400 mb-1">
+                      @{profile.username}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      View Profile
+                    </p>
+                  </>
+                )}
+              </div>
 
               {/* External link icon */}
               <FiExternalLink className="absolute top-4 right-4 text-gray-400 group-hover:text-primary-600 transition-colors" />
