@@ -81,6 +81,11 @@ function App() {
         <Route path="contacts" element={<AdminContacts />} />
         <Route path="settings" element={<AdminSettings />} />
       </Route>
+
+      {/* 404 - Catch all */}
+      <Route path="*" element={<MainLayout />}>
+        <Route path="*" element={<Home />} />
+      </Route>
     </Routes>
   );
 }
