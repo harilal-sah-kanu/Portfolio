@@ -9,6 +9,8 @@ import {
   FiCodepen,
   FiUsers,
   FiTrendingUp,
+  FiStar,
+  FiPackage,
 } from "react-icons/fi";
 import api from "../utils/api";
 import toast from "react-hot-toast";
@@ -55,6 +57,9 @@ const Experience = () => {
     freelance: "from-orange-500 to-orange-600",
     volunteer: "from-pink-500 to-pink-600",
     certification: "from-indigo-500 to-indigo-600",
+    project: "from-cyan-500 to-cyan-600",
+    achievement: "from-yellow-500 to-yellow-600",
+    other: "from-gray-500 to-gray-600",
   };
 
   const categoryIcons = {
@@ -64,6 +69,9 @@ const Experience = () => {
     freelance: FiCodepen,
     volunteer: FiUsers,
     certification: FiAward,
+    project: FiPackage,
+    achievement: FiStar,
+    other: FiBriefcase,
   };
 
   return (
@@ -105,7 +113,9 @@ const Experience = () => {
           <div className="max-w-5xl mx-auto">
             {Object.entries(groupedExperiences).map(
               ([category, categoryExps]) => {
-                const CategoryIcon = categoryIcons[category];
+                const CategoryIcon = categoryIcons[category] || FiBriefcase;
+                const categoryColor =
+                  categoryColors[category] || "from-gray-500 to-gray-600";
                 return (
                   <motion.div
                     key={category}
@@ -116,7 +126,7 @@ const Experience = () => {
                     {/* Category Header */}
                     <div className="flex items-center gap-3 mb-6">
                       <div
-                        className={`p-2 rounded-lg bg-gradient-to-r ${categoryColors[category]} text-white`}
+                        className={`p-2 rounded-lg bg-gradient-to-r ${categoryColor} text-white`}
                       >
                         <CategoryIcon size={20} />
                       </div>
@@ -152,7 +162,7 @@ const Experience = () => {
                               } top-6`}
                             >
                               <div
-                                className={`w-2 h-2 md:w-3 md:h-3 rounded-full bg-gradient-to-br ${categoryColors[category]}`}
+                                className={`w-2 h-2 md:w-3 md:h-3 rounded-full bg-gradient-to-br ${categoryColor}`}
                               ></div>
                             </div>
 
@@ -212,7 +222,7 @@ const Experience = () => {
 
                                 {/* Date Badge */}
                                 <div
-                                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r ${categoryColors[category]} text-white font-medium text-xs shadow-md flex-shrink-0`}
+                                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r ${categoryColor} text-white font-medium text-xs shadow-md flex-shrink-0`}
                                 >
                                   <FiCalendar size={12} />
                                   <span className="whitespace-nowrap">
@@ -226,7 +236,7 @@ const Experience = () => {
 
                               {/* Description */}
                               {exp.description && (
-                                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+                                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3 content-display">
                                   {exp.description}
                                 </p>
                               )}
@@ -247,7 +257,7 @@ const Experience = () => {
                                             className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"
                                           >
                                             <span
-                                              className={`mt-1.5 w-1.5 h-1.5 rounded-full bg-gradient-to-br ${categoryColors[category]} flex-shrink-0`}
+                                              className={`mt-1.5 w-1.5 h-1.5 rounded-full bg-gradient-to-br ${categoryColor} flex-shrink-0`}
                                             ></span>
                                             <span className="flex-1">
                                               {achievement}

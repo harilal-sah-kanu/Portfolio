@@ -228,16 +228,25 @@ const ExperienceForm = ({ experience, onSuccess, onCancel }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-2">Description *</label>
+        <label className="block text-sm font-medium mb-2">
+          Description *
+          <span className="text-xs text-gray-500 dark:text-gray-400 font-normal ml-2">
+            (Press Enter for line breaks)
+          </span>
+        </label>
         <textarea
           value={formData.description}
           onChange={(e) =>
             setFormData({ ...formData, description: e.target.value })
           }
-          className="input"
-          rows="4"
+          className="input-textarea"
+          rows="6"
+          placeholder="Describe your role and responsibilities...&#10;&#10;What you did and achieved in this position.&#10;You can use multiple paragraphs!"
           required
         />
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          💡 Tip: Line breaks will be preserved in the display
+        </p>
       </div>
 
       <div>
@@ -249,10 +258,13 @@ const ExperienceForm = ({ experience, onSuccess, onCancel }) => {
           onChange={(e) =>
             setFormData({ ...formData, achievements: e.target.value })
           }
-          className="input"
-          rows="4"
-          placeholder="Led a team of 5 developers&#10;Improved performance by 40%&#10;Implemented CI/CD pipeline"
+          className="input-textarea"
+          rows="6"
+          placeholder="Led a team of 5 developers&#10;Improved performance by 40%&#10;Implemented CI/CD pipeline&#10;Reduced bug reports by 60%&#10;Mentored 3 junior developers"
         />
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          💡 Each line will appear as a separate bullet point
+        </p>
       </div>
 
       <div>

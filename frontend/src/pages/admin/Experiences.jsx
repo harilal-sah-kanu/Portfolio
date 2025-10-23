@@ -149,7 +149,7 @@ const Experiences = () => {
                       )}
                     </div>
 
-                    <p className="text-gray-600 dark:text-gray-400 mb-3">
+                    <p className="text-gray-600 dark:text-gray-400 mb-3 content-display">
                       {exp.description}
                     </p>
 
