@@ -523,3 +523,291 @@ export const updateDailyContribution = async (req, res) => {
     res.status(400).json({ message: "Invalid data", error: error.message });
   }
 };
+
+// @desc    Sync all data (stats + contributions) from platform APIs
+// @route   POST /api/coding-profiles/:id/sync-all
+// @access  Private/Admin
+export const syncAllPlatformData = async (req, res) => {
+  try {
+    const profile = await CodingProfile.findById(req.params.id);
+
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    const { platform, username } = profile;
+    let stats = {};
+    let contributions = [];
+    let syncedDays = 0;
+
+    switch (platform) {
+      case "leetcode":
+        try {
+          // Fetch stats
+          const leetcodeResponse = await axios.post(
+            "https://leetcode.com/graphql",
+            {
+              query: `
+                query userProfile($username: String!) {
+                  matchedUser(username: $username) {
+                    submitStats {
+                      acSubmissionNum {
+                        difficulty
+                        count
+                      }
+                    }
+                    profile {
+                      ranking
+                      reputation
+                    }
+                    userContestRanking(username: $username) {
+                      rating
+                      attendedContestsCount
+                      globalRanking
+                    }
+                    submissionCalendar
+                  }
+                }
+              `,
+              variables: { username },
+            }
+          );
+
+          const data = leetcodeResponse.data?.data?.matchedUser;
+          if (!data) {
+            throw new Error("User not found");
+          }
+
+          // Process stats
+          const submissions = data.submitStats.acSubmissionNum;
+          const contestData = data.userContestRanking;
+
+          stats = {
+            totalSolved:
+              submissions.find((s) => s.difficulty === "All")?.count || 0,
+            easySolved:
+              submissions.find((s) => s.difficulty === "Easy")?.count || 0,
+            mediumSolved:
+              submissions.find((s) => s.difficulty === "Medium")?.count || 0,
+            hardSolved:
+              submissions.find((s) => s.difficulty === "Hard")?.count || 0,
+            ranking: data.profile?.ranking || 0,
+            rating: Math.round(contestData?.rating || 0),
+            contestParticipation: contestData?.attendedContestsCount || 0,
+          };
+
+          // Process submission calendar (contributions)
+          const calendar = data.submissionCalendar;
+          if (calendar) {
+            const calendarData = JSON.parse(calendar);
+            Object.entries(calendarData).forEach(([timestamp, count]) => {
+              if (count > 0) {
+                const date = new Date(parseInt(timestamp) * 1000);
+                date.setHours(0, 0, 0, 0);
+                contributions.push({
+                  date,
+                  solved: true,
+                  contributed: false,
+                });
+                syncedDays++;
+              }
+            });
+          }
+        } catch (error) {
+          return res.status(400).json({
+            message: `Failed to fetch LeetCode data: ${error.message}`,
+          });
+        }
+        break;
+
+      case "github":
+        try {
+          // Fetch stats
+          const githubResponse = await axios.get(
+            `https://api.github.com/users/${username}`,
+            {
+              headers: {
+                Accept: "application/vnd.github.v3+json",
+              },
+            }
+          );
+          const userData = githubResponse.data;
+
+          // Fetch repos for star count
+          let totalStars = 0;
+          try {
+            const reposResponse = await axios.get(
+              `https://api.github.com/users/${username}/repos?per_page=100`,
+              {
+                headers: {
+                  Accept: "application/vnd.github.v3+json",
+                },
+              }
+            );
+            totalStars = reposResponse.data.reduce(
+              (sum, repo) => sum + (repo.stargazers_count || 0),
+              0
+            );
+          } catch (e) {
+            console.log("Could not fetch repos for star count");
+          }
+
+          stats = {
+            totalRepos: userData.public_repos || 0,
+            followers: userData.followers || 0,
+            totalStars: totalStars,
+          };
+
+          // Fetch contributions
+          const eventsResponse = await axios.get(
+            `https://api.github.com/users/${username}/events?per_page=100`,
+            {
+              headers: {
+                Accept: "application/vnd.github.v3+json",
+              },
+            }
+          );
+
+          const activeDates = new Set();
+          eventsResponse.data.forEach((event) => {
+            const date = new Date(event.created_at);
+            date.setHours(0, 0, 0, 0);
+            activeDates.add(date.toDateString());
+          });
+
+          activeDates.forEach((dateStr) => {
+            contributions.push({
+              date: new Date(dateStr),
+              solved: false,
+              contributed: true,
+            });
+            syncedDays++;
+          });
+        } catch (error) {
+          return res.status(400).json({
+            message: `Failed to fetch GitHub data: ${error.message}`,
+          });
+        }
+        break;
+
+      case "codeforces":
+        try {
+          // Fetch stats
+          const cfResponse = await axios.get(
+            `https://codeforces.com/api/user.info?handles=${username}`
+          );
+          const data = cfResponse.data?.result?.[0];
+
+          if (!data) {
+            throw new Error("User not found");
+          }
+
+          stats = {
+            rating: data.rating || 0,
+            maxRating: data.maxRating || 0,
+            rank: data.rank || "",
+            maxRank: data.maxRank || "",
+          };
+
+          // Fetch contest participation
+          try {
+            const ratingResponse = await axios.get(
+              `https://codeforces.com/api/user.rating?handle=${username}`
+            );
+            stats.contestParticipation =
+              ratingResponse.data?.result?.length || 0;
+          } catch (e) {
+            stats.contestParticipation = 0;
+          }
+
+          // Fetch submissions for active days
+          try {
+            const submissionsResponse = await axios.get(
+              `https://codeforces.com/api/user.status?handle=${username}&from=1&count=1000`
+            );
+            const submissions = submissionsResponse.data?.result || [];
+
+            const activeDates = new Set();
+            submissions.forEach((submission) => {
+              const date = new Date(submission.creationTimeSeconds * 1000);
+              date.setHours(0, 0, 0, 0);
+              activeDates.add(date.toDateString());
+            });
+
+            activeDates.forEach((dateStr) => {
+              contributions.push({
+                date: new Date(dateStr),
+                solved: true,
+                contributed: false,
+              });
+              syncedDays++;
+            });
+          } catch (e) {
+            console.log("Could not fetch Codeforces submissions");
+          }
+        } catch (error) {
+          return res.status(400).json({
+            message: `Failed to fetch Codeforces data: ${error.message}`,
+          });
+        }
+        break;
+
+      case "codechef":
+        try {
+          // CodeChef doesn't have a public API, return error
+          return res.status(400).json({
+            message:
+              "CodeChef doesn't have a public API. Please update stats and contributions manually.",
+          });
+        } catch (error) {
+          return res.status(400).json({
+            message: `Failed to fetch CodeChef data: ${error.message}`,
+          });
+        }
+        break;
+
+      default:
+        return res.status(400).json({
+          message: `Automatic sync not supported for ${platform}. Please update manually.`,
+        });
+    }
+
+    // Update stats
+    profile.stats = { ...profile.stats, ...stats };
+
+    // Merge contributions
+    contributions.forEach((newContribution) => {
+      const existingIndex = profile.dailyContributions.findIndex(
+        (c) => c.date.toDateString() === newContribution.date.toDateString()
+      );
+
+      if (existingIndex >= 0) {
+        profile.dailyContributions[existingIndex].solved =
+          profile.dailyContributions[existingIndex].solved ||
+          newContribution.solved;
+        profile.dailyContributions[existingIndex].contributed =
+          profile.dailyContributions[existingIndex].contributed ||
+          newContribution.contributed;
+      } else {
+        profile.dailyContributions.push(newContribution);
+      }
+    });
+
+    // Keep only last 365 days
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    profile.dailyContributions = profile.dailyContributions.filter(
+      (c) => c.date >= oneYearAgo
+    );
+
+    profile.lastUpdated = Date.now();
+    await profile.save();
+
+    res.json({
+      message: `Successfully synced stats and ${syncedDays} days of contributions from ${platform}`,
+      profile,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};

@@ -39,6 +39,7 @@ export default {
         gradient: "gradient 8s linear infinite",
         float: "float 6s ease-in-out infinite",
         glow: "glow 2s ease-in-out infinite",
+        heartbeat: "heartbeat 1.5s ease-in-out infinite",
       },
       keyframes: {
         gradient: {
@@ -58,6 +59,13 @@ export default {
         glow: {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.5" },
+        },
+        heartbeat: {
+          "0%, 100%": { transform: "scale(1)" },
+          "10%": { transform: "scale(1.2)" },
+          "20%": { transform: "scale(1)" },
+          "30%": { transform: "scale(1.2)" },
+          "40%": { transform: "scale(1)" },
         },
       },
       backgroundImage: {

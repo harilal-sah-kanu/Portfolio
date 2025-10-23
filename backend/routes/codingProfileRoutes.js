@@ -7,6 +7,7 @@ import {
   deleteCodingProfile,
   fetchPlatformStats,
   updateDailyContribution,
+  syncAllPlatformData,
 } from "../controllers/codingProfileController.js";
 import { protect, admin } from "../middleware/auth.js";
 
@@ -20,6 +21,8 @@ router
 router.post("/fetch-stats", protect, admin, fetchPlatformStats);
 
 router.post("/:id/daily-contribution", protect, admin, updateDailyContribution);
+
+router.post("/:id/sync-all", protect, admin, syncAllPlatformData);
 
 router
   .route("/:id")

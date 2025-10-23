@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   FiCode,
@@ -42,6 +42,20 @@ const Analytics = () => {
 
   useEffect(() => {
     fetchCodingProfiles();
+  }, []);
+
+  // Auto-refresh when page becomes visible
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        fetchCodingProfiles();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   // Auto-sync daily contributions every 5 minutes
@@ -178,7 +192,7 @@ const Analytics = () => {
   };
 
   // Calculate current streak across all platforms
-  const getCurrentStreak = () => {
+  const getCurrentStreak = useMemo(() => {
     if (codingProfiles.length === 0) return 0;
 
     // Get all unique dates with activity from all platforms
@@ -191,27 +205,36 @@ const Analytics = () => {
       });
     });
 
+    if (allDates.size === 0) return 0;
+
     // Calculate streak
     let streak = 0;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    for (let i = 0; i < 365; i++) {
+    // Check if today has activity
+    const hasActivityToday = allDates.has(today.toDateString());
+
+    // Start from today if there's activity, otherwise start from yesterday
+    const startDay = hasActivityToday ? 0 : 1;
+
+    for (let i = startDay; i < 365; i++) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
 
       if (allDates.has(date.toDateString())) {
         streak++;
-      } else if (i > 0) {
+      } else {
+        // Break the streak on first gap
         break;
       }
     }
 
     return streak;
-  };
+  }, [codingProfiles]);
 
   // Calculate total active days across all platforms
-  const getTotalActiveDays = () => {
+  const getTotalActiveDays = useMemo(() => {
     if (codingProfiles.length === 0) return 0;
 
     // Get all unique dates with activity from all platforms
@@ -225,7 +248,7 @@ const Analytics = () => {
     });
 
     return allDates.size;
-  };
+  }, [codingProfiles]);
 
   const getPlatformIcon = (platform) => {
     const icons = {
@@ -345,7 +368,7 @@ const Analytics = () => {
               </div>
             </div>
             <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1 flex items-center justify-center gap-2">
-              <span>{getCurrentStreak()}</span>
+              <span>{getCurrentStreak}</span>
               <FiActivity className="text-orange-500" size={20} />
             </p>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center">
@@ -366,7 +389,7 @@ const Analytics = () => {
               </div>
             </div>
             <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1 text-center">
-              {getTotalActiveDays()}
+              {getTotalActiveDays}
             </p>
             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center">
               Active Days

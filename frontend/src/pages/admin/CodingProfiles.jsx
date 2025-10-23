@@ -7,6 +7,7 @@ import {
   FiEye,
   FiEyeOff,
   FiCalendar,
+  FiRefreshCw,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
@@ -15,11 +16,11 @@ import Modal from "../../components/Modal";
 import CodingProfileForm from "../../components/CodingProfileForm";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import ContributionCalendar from "../../components/ContributionCalendar";
-import TodayActivity from "../../components/TodayActivity";
 
 const CodingProfiles = () => {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [syncingAll, setSyncingAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -89,6 +90,67 @@ const CodingProfiles = () => {
     fetchProfiles();
   };
 
+  const handleSyncAllPlatforms = async () => {
+    setSyncingAll(true);
+    let successCount = 0;
+    let errorCount = 0;
+
+    try {
+      // Filter profiles that support auto-sync
+      const syncableProfiles = profiles.filter(
+        (p) =>
+          p.platform === "github" ||
+          p.platform === "leetcode" ||
+          p.platform === "codeforces"
+      );
+
+      if (syncableProfiles.length === 0) {
+        toast.error(
+          "No profiles available for auto-sync. Add GitHub, LeetCode, or Codeforces profiles."
+        );
+        setSyncingAll(false);
+        return;
+      }
+
+      // Sync all profiles in parallel
+      const syncPromises = syncableProfiles.map(async (profile) => {
+        try {
+          await api.post(`/coding-profiles/${profile._id}/sync-all`);
+          successCount++;
+        } catch (error) {
+          errorCount++;
+          console.error(`Failed to sync ${profile.platform}:`, error);
+        }
+      });
+
+      await Promise.all(syncPromises);
+
+      // Show results
+      if (successCount > 0 && errorCount === 0) {
+        toast.success(
+          `Successfully synced all ${successCount} platform${
+            successCount > 1 ? "s" : ""
+          }!`
+        );
+      } else if (successCount > 0 && errorCount > 0) {
+        toast.success(
+          `Synced ${successCount} platform${
+            successCount > 1 ? "s" : ""
+          }, ${errorCount} failed`
+        );
+      } else {
+        toast.error("Failed to sync platforms. Please try again.");
+      }
+
+      // Refresh profiles
+      fetchProfiles();
+    } catch (error) {
+      toast.error("An error occurred while syncing platforms");
+    } finally {
+      setSyncingAll(false);
+    }
+  };
+
   const platformColors = {
     leetcode: "from-yellow-600 to-orange-600",
     codechef: "from-amber-700 to-amber-900",
@@ -101,7 +163,7 @@ const CodingProfiles = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold font-display mb-2">
             Coding Profiles
@@ -110,18 +172,25 @@ const CodingProfiles = () => {
             Manage your coding platform statistics
           </p>
         </div>
-        <button
-          onClick={openCreateModal}
-          className="btn-primary flex items-center gap-2"
-        >
-          <FiPlus /> Add Profile
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={handleSyncAllPlatforms}
+            disabled={syncingAll || loading}
+            className={`btn-primary flex items-center gap-2 ${
+              syncingAll ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            <FiRefreshCw className={syncingAll ? "animate-spin" : ""} />
+            {syncingAll ? "Syncing..." : "Sync All Platforms"}
+          </button>
+          <button
+            onClick={openCreateModal}
+            className="btn-secondary flex items-center gap-2"
+          >
+            <FiPlus /> Add Profile
+          </button>
+        </div>
       </div>
-
-      {/* Today's Activity Component */}
-      {!loading && profiles.length > 0 && (
-        <TodayActivity codingProfiles={profiles} />
-      )}
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

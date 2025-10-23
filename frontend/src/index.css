@@ -271,3 +271,37 @@
         text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
     }
 }
+
+.animate-heartbeat {
+    animation: breathing 2s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes breathing {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.animate-heartbeat {
+    animation: breathing 2s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes breathing {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}

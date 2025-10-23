@@ -170,7 +170,12 @@ const Footer = () => {
             © {currentYear} Portfolio. All rights reserved.
           </p>
           <p className="text-gray-600 dark:text-gray-400 text-sm flex items-center gap-1">
-            Made with <FiHeart className="text-red-500" /> using MERN Stack
+            Made with{" "}
+            <FiHeart
+              className="text-red-500 animate-heartbeat"
+              style={{ fill: "currentColor" }}
+            />{" "}
+            using MERN Stack
           </p>
         </div>
       </div>
