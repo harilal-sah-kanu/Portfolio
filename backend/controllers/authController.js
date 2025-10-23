@@ -110,6 +110,11 @@ export const updateUserProfile = async (req, res) => {
       user.linkedin = req.body.linkedin || user.linkedin;
       user.twitter = req.body.twitter || user.twitter;
 
+      // Update roles if provided
+      if (req.body.roles !== undefined) {
+        user.roles = req.body.roles;
+      }
+
       if (req.body.password) {
         user.password = req.body.password;
       }
@@ -127,6 +132,7 @@ export const updateUserProfile = async (req, res) => {
         github: updatedUser.github,
         linkedin: updatedUser.linkedin,
         twitter: updatedUser.twitter,
+        roles: updatedUser.roles,
         token: generateToken(updatedUser._id),
       });
     } else {
@@ -173,11 +179,9 @@ export const changePassword = async (req, res) => {
     // Check if new password is same as current
     const isSamePassword = await user.matchPassword(newPassword);
     if (isSamePassword) {
-      return res
-        .status(400)
-        .json({
-          message: "New password must be different from current password",
-        });
+      return res.status(400).json({
+        message: "New password must be different from current password",
+      });
     }
 
     // Update password

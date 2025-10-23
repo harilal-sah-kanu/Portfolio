@@ -64,6 +64,7 @@ router.get("/portfolio-owner", async (req, res) => {
         resume: owner.resume,
         profileImage: owner.profileImage,
         codingProfiles: owner.codingProfiles,
+        roles: owner.roles,
       });
     } else {
       res.json({

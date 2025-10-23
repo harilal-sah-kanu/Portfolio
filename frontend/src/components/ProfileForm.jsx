@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { FiX, FiPlus } from "react-icons/fi";
 
 const ProfileForm = ({ profile, onSubmit, onClose }) => {
   const [formData, setFormData] = useState({
@@ -10,8 +11,10 @@ const ProfileForm = ({ profile, onSubmit, onClose }) => {
     github: "",
     linkedin: "",
     twitter: "",
+    roles: [],
   });
   const [loading, setLoading] = useState(false);
+  const [newRole, setNewRole] = useState("");
 
   useEffect(() => {
     if (profile) {
@@ -23,6 +26,7 @@ const ProfileForm = ({ profile, onSubmit, onClose }) => {
         github: profile.github || "",
         linkedin: profile.linkedin || "",
         twitter: profile.twitter || "",
+        roles: profile.roles || [],
       });
     }
   }, [profile]);
@@ -31,6 +35,29 @@ const ProfileForm = ({ profile, onSubmit, onClose }) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleAddRole = () => {
+    if (!newRole.trim()) {
+      toast.error("Please enter a role");
+      return;
+    }
+    if (formData.roles.includes(newRole.trim())) {
+      toast.error("This role already exists");
+      return;
+    }
+    setFormData({
+      ...formData,
+      roles: [...formData.roles, newRole.trim()],
+    });
+    setNewRole("");
+  };
+
+  const handleRemoveRole = (index) => {
+    setFormData({
+      ...formData,
+      roles: formData.roles.filter((_, i) => i !== index),
     });
   };
 
@@ -121,6 +148,66 @@ const ProfileForm = ({ profile, onSubmit, onClose }) => {
             className="input"
             placeholder="Tell us about yourself..."
           />
+        </div>
+
+        {/* Animated Roles */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Animated Roles
+            <span className="text-xs text-gray-500 ml-2">
+              (Will appear as typing animation on homepage)
+            </span>
+          </label>
+          <div className="space-y-2">
+            {/* Existing Roles */}
+            {formData.roles.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-3">
+                {formData.roles.map((role, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-lg"
+                  >
+                    <span className="text-sm">{role}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveRole(index)}
+                      className="hover:text-red-600 transition-colors"
+                    >
+                      <FiX size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            {/* Add New Role */}
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={newRole}
+                onChange={(e) => setNewRole(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleAddRole();
+                  }
+                }}
+                className="input flex-1"
+                placeholder="e.g., Full Stack Developer, Web Developer..."
+              />
+              <button
+                type="button"
+                onClick={handleAddRole}
+                className="btn-secondary flex items-center gap-2 whitespace-nowrap"
+              >
+                <FiPlus size={16} />
+                Add
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Add multiple roles to create a rotating animation effect. Press
+              Enter or click Add.
+            </p>
+          </div>
         </div>
 
         {/* Email */}

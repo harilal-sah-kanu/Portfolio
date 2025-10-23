@@ -29,7 +29,6 @@ const Analytics = () => {
   const [loading, setLoading] = useState(true);
   const [hoveredPlatform, setHoveredPlatform] = useState(null);
   const [hoveredDifficulty, setHoveredDifficulty] = useState(null);
-  const [hoveredRatingPoint, setHoveredRatingPoint] = useState(null);
   const [stats, setStats] = useState({
     totalSolved: 0,
     easySolved: 0,
@@ -292,27 +291,24 @@ const Analytics = () => {
         </motion.div>
 
         {/* Overall Stats Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 md:gap-6 mb-6 md:mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 md:gap-6 mb-6 md:mb-12">
           {/* Total Problems */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="card p-2 sm:p-4 md:p-6 bg-gradient-to-br from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20"
+            className="card p-4 sm:p-6 bg-gradient-to-br from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20"
           >
-            <div className="flex flex-col sm:flex-row items-center justify-between mb-1 md:mb-4">
-              <div className="p-2 md:p-3 rounded-lg bg-gradient-to-br from-primary-500 to-purple-500 text-white mb-2 sm:mb-0">
-                <FiTarget size={20} className="md:w-6 md:h-6" />
+            <div className="flex items-center justify-center mb-4">
+              <div className="p-2 sm:p-3 rounded-lg bg-gradient-to-br from-primary-500 to-purple-500 text-white">
+                <FiTarget size={20} className="sm:w-6 sm:h-6" />
               </div>
-              <span className="text-xs md:text-sm font-medium text-gray-600 dark:text-gray-400 text-center sm:text-right">
-                Total Solved
-              </span>
             </div>
-            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 text-center sm:text-left">
+            <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1 text-center">
               {stats.totalSolved}
             </p>
-            <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 text-center sm:text-left">
-              Problems
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center">
+              Total Solved
             </p>
           </motion.div>
 
@@ -321,21 +317,18 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="card p-2 sm:p-4 md:p-6 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20"
+            className="card p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20"
           >
-            <div className="flex flex-col sm:flex-row items-center justify-between mb-1 md:mb-4">
-              <div className="p-2 md:p-3 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 text-white mb-2 sm:mb-0">
-                <FiAward size={20} className="md:w-6 md:h-6" />
+            <div className="flex items-center justify-center mb-4">
+              <div className="p-2 sm:p-3 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 text-white">
+                <FiAward size={20} className="sm:w-6 sm:h-6" />
               </div>
-              <span className="text-xs md:text-sm font-medium text-gray-600 dark:text-gray-400 text-center sm:text-right">
-                Contests
-              </span>
             </div>
-            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 text-center sm:text-left">
+            <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1 text-center">
               {stats.totalContests}
             </p>
-            <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 text-center sm:text-left">
-              Participated
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center">
+              Contests
             </p>
           </motion.div>
 
@@ -344,22 +337,19 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="card p-2 sm:p-4 md:p-6 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20"
+            className="card p-4 sm:p-6 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20"
           >
-            <div className="flex flex-col sm:flex-row items-center justify-between mb-1 md:mb-4">
-              <div className="p-2 md:p-3 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 text-white mb-2 sm:mb-0">
-                <FiActivity size={20} className="md:w-6 md:h-6" />
+            <div className="flex items-center justify-center mb-4">
+              <div className="p-2 sm:p-3 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 text-white">
+                <FiActivity size={20} className="sm:w-6 sm:h-6" />
               </div>
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Current Streak
-              </span>
             </div>
             <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1 flex items-center justify-center gap-2">
               <span>{getCurrentStreak()}</span>
-              <FiActivity className="text-orange-500" />
+              <FiActivity className="text-orange-500" size={20} />
             </p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-              Days Active
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center">
+              Current Streak
             </p>
           </motion.div>
 
@@ -368,21 +358,18 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="card p-3 sm:p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20"
+            className="card p-4 sm:p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20"
           >
-            <div className="flex items-center justify-between mb-2 sm:mb-4">
-              <div className="p-3 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 text-white">
-                <FiCalendar size={24} />
+            <div className="flex items-center justify-center mb-4">
+              <div className="p-2 sm:p-3 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 text-white">
+                <FiCalendar size={20} className="sm:w-6 sm:h-6" />
               </div>
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Active Days
-              </span>
             </div>
-            <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
+            <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1 text-center">
               {getTotalActiveDays()}
             </p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-              Total Days
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center">
+              Active Days
             </p>
           </motion.div>
 
@@ -391,27 +378,24 @@ const Analytics = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="card p-3 sm:p-6 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20"
+            className="card p-4 sm:p-6 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20"
           >
-            <div className="flex items-center justify-between mb-2 sm:mb-4">
-              <div className="p-3 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 text-white">
-                <FiTrendingUp size={24} />
+            <div className="flex items-center justify-center mb-4">
+              <div className="p-2 sm:p-3 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 text-white">
+                <FiTrendingUp size={20} className="sm:w-6 sm:h-6" />
               </div>
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Stars
-              </span>
             </div>
-            <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
+            <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1 text-center">
               {stats.totalStars}
             </p>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center">
               Total Stars
             </p>
           </motion.div>
         </div>
 
         {/* Platform Distribution & LeetCode Stats - Half Half - Hidden on Mobile */}
-        <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 md:mb-12">
+        <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 md:mb-12 items-start">
           {/* Problems Solved by Platform */}
           {platformDistribution.length > 0 && (
             <motion.div
@@ -429,8 +413,11 @@ const Analytics = () => {
 
               <div className="flex flex-col items-center justify-center gap-8">
                 {/* Pie Chart */}
-                <div className="relative w-full max-w-xs mx-auto h-40 sm:h-56">
-                  <svg viewBox="0 0 200 200" className="transform -rotate-90">
+                <div className="relative w-full max-w-xs mx-auto aspect-square">
+                  <svg
+                    viewBox="0 0 200 200"
+                    className="transform -rotate-90 w-full h-full"
+                  >
                     {(() => {
                       let currentAngle = 0;
                       const total = platformDistribution.reduce(
@@ -494,7 +481,7 @@ const Analytics = () => {
                       className="dark:fill-dark-800"
                     />
                   </svg>
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
                     <div className="text-center">
                       <p className="text-3xl font-bold text-gray-900 dark:text-white">
                         {stats.totalSolved}
@@ -573,8 +560,11 @@ const Analytics = () => {
 
               <div className="flex flex-col items-center justify-center gap-8">
                 {/* Pie Chart */}
-                <div className="relative w-full max-w-xs mx-auto h-40 sm:h-56">
-                  <svg viewBox="0 0 200 200" className="transform -rotate-90">
+                <div className="relative w-full max-w-xs mx-auto aspect-square">
+                  <svg
+                    viewBox="0 0 200 200"
+                    className="transform -rotate-90 w-full h-full"
+                  >
                     {(() => {
                       const data = [
                         {
@@ -648,7 +638,7 @@ const Analytics = () => {
                   </svg>
 
                   {/* Center Display */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
                     <div className="text-center">
                       {hoveredDifficulty ? (
                         <>
@@ -676,6 +666,44 @@ const Analytics = () => {
                       )}
                     </div>
                   </div>
+
+                  {/* Tooltip */}
+                  {hoveredDifficulty && (
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full mb-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 px-3 py-2 rounded-lg shadow-lg text-sm font-medium pointer-events-none">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className={`w-2 h-2 rounded ${
+                            hoveredDifficulty === "Easy"
+                              ? "bg-green-500"
+                              : hoveredDifficulty === "Medium"
+                              ? "bg-yellow-500"
+                              : "bg-red-500"
+                          }`}
+                        />
+                        <span>
+                          {hoveredDifficulty}:{" "}
+                          {hoveredDifficulty === "Easy"
+                            ? stats.easySolved
+                            : hoveredDifficulty === "Medium"
+                            ? stats.mediumSolved
+                            : stats.hardSolved}{" "}
+                          (
+                          {(
+                            ((hoveredDifficulty === "Easy"
+                              ? stats.easySolved
+                              : hoveredDifficulty === "Medium"
+                              ? stats.mediumSolved
+                              : stats.hardSolved) /
+                              (stats.easySolved +
+                                stats.mediumSolved +
+                                stats.hardSolved)) *
+                            100
+                          ).toFixed(1)}
+                          %)
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Legend */}
@@ -742,426 +770,6 @@ const Analytics = () => {
             </motion.div>
           )}
         </div>
-
-        {/* Rating Graph - Full Width Mountain Chart - Hidden on Mobile */}
-        {codingProfiles.filter(
-          (p) => p.stats?.rating > 0 || p.stats?.maxRating > 0
-        ).length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-            className="hidden lg:block card p-2 sm:p-8 mb-8 md:mb-12 w-full overflow-hidden"
-          >
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 sm:mb-8">
-              <div className="flex items-center gap-3">
-                <FiTrendingUp className="text-3xl text-primary-600" />
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-                    Contest Rating Trends
-                  </h2>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    Track your competitive programming ratings across platforms
-                  </p>
-                </div>
-              </div>
-              {/* Legend */}
-              <div className="flex gap-6 text-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-10 h-1 bg-gradient-to-r from-primary-500 to-purple-500 rounded-full"></div>
-                  <span className="text-gray-700 dark:text-gray-300 font-medium">
-                    Current Rating
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-10 h-1 border-t-2 border-dashed border-amber-500"></div>
-                  <span className="text-gray-700 dark:text-gray-300 font-medium">
-                    Peak Rating
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative w-full bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-dark-800 dark:via-dark-900 dark:to-dark-800 rounded-2xl p-2 sm:p-8 shadow-inner overflow-hidden">
-              {/* Hover Tooltip */}
-              {hoveredRatingPoint && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="absolute top-4 right-4 z-50 bg-white dark:bg-dark-700 shadow-lg rounded-lg px-3 py-2 border border-primary-400 dark:border-primary-500 pointer-events-none"
-                >
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="scale-75">
-                      {getPlatformIcon(hoveredRatingPoint.platform)}
-                    </div>
-                    <span className="font-bold text-sm capitalize text-gray-900 dark:text-white">
-                      {hoveredRatingPoint.platform}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3 text-xs">
-                    <div className="flex items-center gap-1">
-                      <span className="text-gray-600 dark:text-gray-400">
-                        Current:
-                      </span>
-                      <span className="font-bold text-primary-600">
-                        {hoveredRatingPoint.currentRating}
-                      </span>
-                    </div>
-                    {hoveredRatingPoint.maxRating > 0 && (
-                      <div className="flex items-center gap-1">
-                        <span className="text-gray-600 dark:text-gray-400">
-                          Peak:
-                        </span>
-                        <span className="font-bold text-amber-600">
-                          {hoveredRatingPoint.maxRating}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Y-axis with values */}
-              <div className="absolute left-2 top-8 bottom-16 flex flex-col justify-between text-sm font-medium text-gray-600 dark:text-gray-400">
-                {(() => {
-                  const maxRating = Math.max(
-                    ...codingProfiles
-                      .filter((p) => p.stats?.maxRating > 0)
-                      .map((p) => p.stats.maxRating),
-                    1000
-                  );
-                  const steps = 6;
-                  return Array.from({ length: steps }, (_, i) => (
-                    <div key={i} className="flex items-center">
-                      <span className="w-12 text-right">
-                        {Math.round(
-                          (maxRating / (steps - 1)) * (steps - 1 - i)
-                        )}
-                      </span>
-                    </div>
-                  ));
-                })()}
-              </div>
-
-              {/* Chart SVG */}
-              <div
-                className="ml-4 sm:ml-16 mr-2 sm:mr-4"
-                style={{ height: "220px", maxHeight: "400px" }}
-              >
-                <svg
-                  className="w-full h-full"
-                  viewBox="0 0 1200 400"
-                  preserveAspectRatio="xMidYMid meet"
-                >
-                  <defs>
-                    {/* Gradient for mountain fill */}
-                    <linearGradient
-                      id="mountainGradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="0%"
-                      y2="100%"
-                    >
-                      <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
-                      <stop
-                        offset="50%"
-                        stopColor="#8b5cf6"
-                        stopOpacity="0.2"
-                      />
-                      <stop
-                        offset="100%"
-                        stopColor="#a78bfa"
-                        stopOpacity="0.05"
-                      />
-                    </linearGradient>
-
-                    {/* Glow effect for points */}
-                    <filter id="glow">
-                      <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                      <feMerge>
-                        <feMergeNode in="coloredBlur" />
-                        <feMergeNode in="SourceGraphic" />
-                      </feMerge>
-                    </filter>
-                  </defs>
-
-                  {/* Horizontal grid lines */}
-                  {[0, 1, 2, 3, 4, 5].map((i) => (
-                    <motion.line
-                      key={`grid-${i}`}
-                      x1="0"
-                      y1={i * 80}
-                      x2="1200"
-                      y2={i * 80}
-                      stroke="currentColor"
-                      strokeWidth="1"
-                      className="text-gray-200 dark:text-dark-700"
-                      strokeDasharray="5,5"
-                      opacity="0.3"
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 1 }}
-                      transition={{ duration: 1, delay: i * 0.1 }}
-                    />
-                  ))}
-
-                  {(() => {
-                    const platforms = codingProfiles.filter(
-                      (p) => p.stats?.rating > 0 || p.stats?.maxRating > 0
-                    );
-
-                    if (platforms.length === 0) return null;
-
-                    const maxRating = Math.max(
-                      ...platforms.map(
-                        (p) => p.stats?.maxRating || p.stats?.rating || 0
-                      ),
-                      1000
-                    );
-
-                    const padding = 100;
-                    const chartWidth = 1200 - padding * 2;
-                    const xStep =
-                      chartWidth / Math.max(platforms.length - 1, 1);
-
-                    // Generate smooth curve points
-                    const currentPoints = platforms.map((profile, index) => {
-                      const x = padding + xStep * index;
-                      const y =
-                        380 - ((profile.stats?.rating || 0) / maxRating) * 360;
-                      return { x, y, profile };
-                    });
-
-                    const maxPoints = platforms.map((profile, index) => {
-                      const x = padding + xStep * index;
-                      const y =
-                        380 -
-                        ((profile.stats?.maxRating ||
-                          profile.stats?.rating ||
-                          0) /
-                          maxRating) *
-                          360;
-                      return { x, y, profile };
-                    });
-
-                    // Create smooth curved paths using quadratic bezier curves
-                    const createSmoothPath = (points) => {
-                      if (points.length < 2) return "";
-
-                      let path = `M ${points[0].x},${points[0].y}`;
-
-                      for (let i = 0; i < points.length - 1; i++) {
-                        const current = points[i];
-                        const next = points[i + 1];
-                        const controlX = (current.x + next.x) / 2;
-                        path += ` Q ${controlX},${current.y} ${controlX},${
-                          (current.y + next.y) / 2
-                        }`;
-                        path += ` Q ${controlX},${next.y} ${next.x},${next.y}`;
-                      }
-
-                      return path;
-                    };
-
-                    const currentPath = createSmoothPath(currentPoints);
-                    const maxPath = createSmoothPath(maxPoints);
-
-                    // Create area path
-                    const areaPath = `${currentPath} L ${
-                      currentPoints[currentPoints.length - 1].x
-                    },400 L ${currentPoints[0].x},400 Z`;
-
-                    return (
-                      <>
-                        {/* Mountain area fill with animation */}
-                        <motion.path
-                          d={areaPath}
-                          fill="url(#mountainGradient)"
-                          initial={{ opacity: 0, scaleY: 0 }}
-                          animate={{ opacity: 1, scaleY: 1 }}
-                          transition={{
-                            duration: 1.5,
-                            delay: 0.3,
-                            ease: "easeOut",
-                          }}
-                          style={{ transformOrigin: "bottom" }}
-                        />
-
-                        {/* Max rating line (dashed) */}
-                        <motion.path
-                          d={maxPath}
-                          fill="none"
-                          stroke="#f59e0b"
-                          strokeWidth="3"
-                          strokeDasharray="8,4"
-                          initial={{ pathLength: 0, opacity: 0 }}
-                          animate={{ pathLength: 1, opacity: 0.8 }}
-                          transition={{
-                            duration: 2,
-                            delay: 0.5,
-                            ease: "easeInOut",
-                          }}
-                        />
-
-                        {/* Current rating line with gradient */}
-                        <motion.path
-                          d={currentPath}
-                          fill="none"
-                          stroke="url(#lineGradient)"
-                          strokeWidth="4"
-                          strokeLinecap="round"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 1 }}
-                          transition={{
-                            duration: 2.5,
-                            delay: 0.6,
-                            ease: "easeInOut",
-                          }}
-                        />
-
-                        {/* Line gradient definition */}
-                        <defs>
-                          <linearGradient
-                            id="lineGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="0%"
-                          >
-                            <stop offset="0%" stopColor="#6366f1" />
-                            <stop offset="50%" stopColor="#8b5cf6" />
-                            <stop offset="100%" stopColor="#a78bfa" />
-                          </linearGradient>
-                        </defs>
-
-                        {/* Data points with animation and glow */}
-                        {currentPoints.map((point, index) => (
-                          <g key={`point-${index}`}>
-                            {/* Max rating point */}
-                            <motion.circle
-                              cx={maxPoints[index].x}
-                              cy={maxPoints[index].y}
-                              r="5"
-                              fill="#f59e0b"
-                              stroke="white"
-                              strokeWidth="2"
-                              filter="url(#glow)"
-                              initial={{ scale: 0, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              transition={{
-                                delay: 1 + index * 0.15,
-                                duration: 0.5,
-                                type: "spring",
-                              }}
-                              className="cursor-pointer"
-                              onMouseEnter={() => {
-                                setHoveredRatingPoint({
-                                  platform: point.profile.platform,
-                                  currentRating:
-                                    point.profile.stats?.rating || 0,
-                                  maxRating:
-                                    point.profile.stats?.maxRating || 0,
-                                });
-                              }}
-                              onMouseLeave={() => setHoveredRatingPoint(null)}
-                            />
-
-                            {/* Current rating point */}
-                            <motion.circle
-                              cx={point.x}
-                              cy={point.y}
-                              r="6"
-                              fill="#6366f1"
-                              stroke="white"
-                              strokeWidth="3"
-                              filter="url(#glow)"
-                              initial={{ scale: 0, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              transition={{
-                                delay: 1.2 + index * 0.15,
-                                duration: 0.5,
-                                type: "spring",
-                              }}
-                              whileHover={{ scale: 1.5 }}
-                              className="cursor-pointer"
-                              onMouseEnter={() => {
-                                setHoveredRatingPoint({
-                                  platform: point.profile.platform,
-                                  currentRating:
-                                    point.profile.stats?.rating || 0,
-                                  maxRating:
-                                    point.profile.stats?.maxRating || 0,
-                                });
-                              }}
-                              onMouseLeave={() => setHoveredRatingPoint(null)}
-                            />
-
-                            {/* Vertical connector line */}
-                            {maxPoints[index].y !== point.y && (
-                              <motion.line
-                                x1={point.x}
-                                y1={maxPoints[index].y}
-                                x2={point.x}
-                                y2={point.y}
-                                stroke="#cbd5e1"
-                                strokeWidth="1.5"
-                                strokeDasharray="3,3"
-                                opacity="0.4"
-                                initial={{ pathLength: 0 }}
-                                animate={{ pathLength: 1 }}
-                                transition={{
-                                  delay: 1.5 + index * 0.1,
-                                  duration: 0.5,
-                                }}
-                              />
-                            )}
-                          </g>
-                        ))}
-                      </>
-                    );
-                  })()}
-                </svg>
-              </div>
-
-              {/* X-axis platform labels */}
-              <div className="mt-4 sm:mt-6 ml-4 sm:ml-16 mr-2 sm:mr-4 flex justify-between items-center overflow-x-auto gap-2">
-                {codingProfiles
-                  .filter((p) => p.stats?.rating > 0 || p.stats?.maxRating > 0)
-                  .map((profile, index) => (
-                    <motion.div
-                      key={profile._id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 1.8 + index * 0.1 }}
-                      className="flex flex-col items-center gap-2 group cursor-pointer"
-                    >
-                      <div className="p-3 rounded-xl bg-white dark:bg-dark-700 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110">
-                        {getPlatformIcon(profile.platform)}
-                      </div>
-                      <span className="text-sm font-bold capitalize text-gray-800 dark:text-gray-200">
-                        {profile.platform}
-                      </span>
-                      <div className="text-center">
-                        <div className="text-lg font-extrabold text-primary-600">
-                          {profile.stats?.rating || 0}
-                        </div>
-                        {profile.stats?.maxRating > 0 && (
-                          <div className="text-xs text-amber-600 dark:text-amber-400 font-semibold">
-                            Peak: {profile.stats.maxRating}
-                          </div>
-                        )}
-                        {profile.stats?.contestParticipation > 0 && (
-                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            {profile.stats.contestParticipation} contests
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
 
         {/* Platform-wise Breakdown */}
         <div className="mb-12">

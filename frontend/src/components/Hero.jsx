@@ -19,6 +19,11 @@ const Hero = () => {
   const [showResumePreview, setShowResumePreview] = useState(false);
   const [pdfLoadError, setPdfLoadError] = useState(false);
 
+  // Typing animation state
+  const [displayedText, setDisplayedText] = useState("");
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -35,6 +40,49 @@ const Hero = () => {
 
     fetchProfile();
   }, []);
+
+  // Typing animation effect
+  useEffect(() => {
+    // Get roles from profile or use defaults
+    const roles =
+      profile?.roles?.length > 0
+        ? profile.roles
+        : [
+            "Full Stack Developer",
+            "Web Developer",
+            "Software Engineer",
+            "MERN Stack Developer",
+          ];
+
+    const currentRole = roles[currentRoleIndex];
+    const typingSpeed = isDeleting ? 50 : 100;
+    const pauseTime = isDeleting ? 500 : 2000;
+
+    if (!isDeleting && displayedText === currentRole) {
+      // Finished typing, pause before deleting
+      const timeout = setTimeout(() => setIsDeleting(true), pauseTime);
+      return () => clearTimeout(timeout);
+    }
+
+    if (isDeleting && displayedText === "") {
+      // Finished deleting, move to next role
+      setIsDeleting(false);
+      setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setDisplayedText((prev) => {
+        if (isDeleting) {
+          return currentRole.substring(0, prev.length - 1);
+        } else {
+          return currentRole.substring(0, prev.length + 1);
+        }
+      });
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [displayedText, isDeleting, currentRoleIndex, profile]);
 
   if (loading) {
     return (
@@ -119,7 +167,7 @@ const Hero = () => {
               className="mb-4"
             >
               <span className="text-lg md:text-xl text-primary-600 dark:text-primary-400 font-medium">
-                Hello, I'm
+                Hi there! I'm
               </span>
             </motion.div>
 
@@ -128,20 +176,37 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
+              style={{
+                textShadow: `
+                  2px 2px 0px rgba(99, 102, 241, 0.3),
+                  4px 4px 0px rgba(99, 102, 241, 0.2),
+                  6px 6px 0px rgba(99, 102, 241, 0.1),
+                  8px 8px 12px rgba(0, 0, 0, 0.15)
+                `,
+              }}
             >
-              <span className="bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent dark:from-primary-400 dark:to-purple-400">
                 {profile.name}
               </span>
             </motion.h1>
 
-            {/* Title */}
+            {/* Title with Typing Animation */}
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-xl md:text-2xl lg:text-3xl font-semibold mb-6 text-gray-700 dark:text-gray-300"
+              className="text-xl md:text-2xl lg:text-3xl font-semibold mb-6 text-gray-700 dark:text-gray-300 h-10 md:h-12 flex items-center"
             >
-              {profile.title}
+              <span>{displayedText}</span>
+              <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                }}
+                className="inline-block w-0.5 h-6 md:h-8 bg-primary-600 dark:bg-primary-400 ml-1"
+              />
             </motion.h2>
 
             {/* Bio */}

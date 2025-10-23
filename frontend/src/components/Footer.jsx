@@ -119,18 +119,18 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
               Quick Links
             </h4>
-            <ul className="space-y-2">
+            <div className="grid grid-cols-2 gap-3">
               {footerLinks.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="group flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-primary-600 hover:text-white dark:hover:bg-primary-600 transition-all duration-200"
+                >
+                  <span className="w-1 h-1 rounded-full bg-primary-600 group-hover:bg-white transition-colors"></span>
+                  <span className="text-sm font-medium">{link.label}</span>
+                </Link>
               ))}
-            </ul>
+            </div>
           </div>
 
           {/* Newsletter */}
@@ -138,22 +138,25 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">
               Stay Updated
             </h4>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm sm:text-base">
               Subscribe to get notified about new projects and blog posts.
             </p>
-            <form onSubmit={handleSubscribe} className="flex gap-2">
+            <form
+              onSubmit={handleSubscribe}
+              className="flex flex-col sm:flex-row gap-2"
+            >
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email"
-                className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+                className="flex-1 px-3 sm:px-4 py-2 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
                 disabled={loading}
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                className="px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 whitespace-nowrap text-sm sm:text-base"
               >
                 {loading ? "..." : "Subscribe"}
               </button>

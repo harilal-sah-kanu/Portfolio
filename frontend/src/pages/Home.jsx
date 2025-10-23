@@ -268,7 +268,9 @@ const Home = () => {
                   className="text-center"
                 >
                   <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent mb-2">
-                    {stats.totalProjects}+
+                    {stats.totalProjects >= 5
+                      ? `${stats.totalProjects}+`
+                      : stats.totalProjects}
                   </div>
                   <div className="text-sm md:text-base text-gray-600 dark:text-gray-400">
                     Projects
@@ -283,7 +285,7 @@ const Home = () => {
                   className="text-center"
                 >
                   <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent mb-2">
-                    {stats.yearsExperience}+
+                    {stats.yearsExperience}
                   </div>
                   <div className="text-sm md:text-base text-gray-600 dark:text-gray-400">
                     Years Experience

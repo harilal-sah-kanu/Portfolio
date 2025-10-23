@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "Full Stack Developer",
     },
+    roles: {
+      type: [String],
+      default: ["Full Stack Developer", "Web Developer", "Software Engineer"],
+    },
     bio: {
       type: String,
       default: "",
