@@ -125,7 +125,7 @@ const ProjectDetail = () => {
                   </div>
                 </div>
 
-                <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed content-display">
                   {project.description}
                 </p>
               </motion.div>

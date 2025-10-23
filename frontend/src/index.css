@@ -235,6 +235,78 @@
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
+    /* Textarea with formatting support */
+    .input-textarea {
+        @apply input;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: 'Poppins', sans-serif;
+        line-height: 1.6;
+        resize: vertical;
+    }
+
+    /* Content display with preserved formatting */
+    .content-display {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        line-height: 1.8;
+    }
+
+    .content-display h1,
+    .content-display h2,
+    .content-display h3 {
+        @apply font-bold mb-3 mt-5;
+    }
+
+    .content-display h1 {
+        @apply text-2xl;
+    }
+
+    .content-display h2 {
+        @apply text-xl;
+    }
+
+    .content-display h3 {
+        @apply text-lg;
+    }
+
+    .content-display ul,
+    .content-display ol {
+        @apply ml-6 mb-4;
+    }
+
+    .content-display ul {
+        @apply list-disc;
+    }
+
+    .content-display ol {
+        @apply list-decimal;
+    }
+
+    .content-display li {
+        @apply mb-2;
+    }
+
+    .content-display p {
+        @apply mb-4;
+    }
+
+    .content-display a {
+        @apply text-primary-600 dark:text-primary-400 hover:underline;
+    }
+
+    .content-display code {
+        @apply bg-gray-100 dark:bg-dark-700 px-2 py-1 rounded text-sm;
+    }
+
+    .content-display pre {
+        @apply bg-gray-100 dark:bg-dark-700 p-4 rounded-lg overflow-x-auto mb-4;
+    }
+
+    .content-display blockquote {
+        @apply border-l-4 border-primary-500 pl-4 italic my-4;
+    }
+
     /* Card styles */
     .card {
         @apply bg-white dark:bg-dark-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-dark-700;

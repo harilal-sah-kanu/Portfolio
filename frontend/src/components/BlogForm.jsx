@@ -116,7 +116,7 @@ const BlogForm = ({ blog, onClose, onSuccess }) => {
           onChange={(e) =>
             setFormData({ ...formData, excerpt: e.target.value })
           }
-          className="input"
+          className="input-textarea"
           rows="3"
           placeholder="Short description of the blog post"
           required
@@ -124,17 +124,25 @@ const BlogForm = ({ blog, onClose, onSuccess }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-2">Content *</label>
+        <label className="block text-sm font-medium mb-2">
+          Content *
+          <span className="text-xs text-gray-500 dark:text-gray-400 font-normal ml-2">
+            (Press Enter for line breaks, use - or • for bullet points)
+          </span>
+        </label>
         <textarea
           value={formData.content}
           onChange={(e) =>
             setFormData({ ...formData, content: e.target.value })
           }
-          className="input"
-          rows="10"
-          placeholder="Write your blog content here (supports markdown)"
+          className="input-textarea"
+          rows="12"
+          placeholder="Write your blog content here...&#10;&#10;Press Enter for new lines&#10;Use - or • for bullet points:&#10;- Point one&#10;- Point two&#10;&#10;Format naturally like you would in a text editor!"
           required
         />
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          💡 Tip: Line breaks and formatting will be preserved in the display
+        </p>
       </div>
 
       <div>

@@ -115,15 +115,25 @@ const ProjectForm = ({ project, onClose, onSuccess }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-2">Description *</label>
+        <label className="block text-sm font-medium mb-2">
+          Description *
+          <span className="text-xs text-gray-500 dark:text-gray-400 font-normal ml-2">
+            (Press Enter for line breaks, use - or • for bullet points)
+          </span>
+        </label>
         <textarea
           value={formData.description}
           onChange={(e) =>
             setFormData({ ...formData, description: e.target.value })
           }
-          className="input min-h-[100px]"
+          className="input-textarea"
+          rows="8"
+          placeholder="Describe your project...&#10;&#10;Key Features:&#10;- Feature one&#10;- Feature two&#10;&#10;Technologies used and what you learned!"
           required
         />
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          💡 Tip: Line breaks and bullet points will be preserved
+        </p>
       </div>
 
       <div>

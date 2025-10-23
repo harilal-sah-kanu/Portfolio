@@ -166,18 +166,15 @@ const BlogDetail = () => {
           >
             {/* Excerpt */}
             {blog.excerpt && (
-              <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-8 font-medium">
+              <p className="text-xl text-gray-700 dark:text-gray-300 leading-relaxed mb-8 font-medium content-display">
                 {blog.excerpt}
               </p>
             )}
 
             {/* Main Content */}
-            <div
-              className="text-gray-700 dark:text-gray-300 leading-relaxed space-y-4"
-              dangerouslySetInnerHTML={{
-                __html: blog.content?.replace(/\n/g, "<br/>") || blog.excerpt,
-              }}
-            />
+            <div className="text-gray-700 dark:text-gray-300 leading-relaxed space-y-4 content-display">
+              {blog.content || blog.excerpt}
+            </div>
           </motion.div>
 
           {/* Footer */}
