@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 import ProjectCard from "../components/ProjectCard";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
+  const projectsGridRef = useRef(null);
 
   useEffect(() => {
     fetchProjects();
@@ -24,6 +29,25 @@ const Projects = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!loading && projects.length > 0 && projectsGridRef.current) {
+      gsap.fromTo(".project-item-gsap",
+        {
+          y: 80,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power3.out",
+          clearProps: "all",
+        }
+      );
+    }
+  }, [loading, projects, filter]);
 
   const categories = ["all", "web", "mobile", "fullstack", "ai/ml", "other"];
 
@@ -80,16 +104,11 @@ const Projects = () => {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div ref={projectsGridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projects.map((project, index) => (
-                <motion.div
-                  key={project._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
+                <div key={project._id} className="project-item-gsap">
                   <ProjectCard project={project} />
-                </motion.div>
+                </div>
               ))}
             </div>
           )}

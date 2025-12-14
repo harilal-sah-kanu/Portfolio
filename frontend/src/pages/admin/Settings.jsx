@@ -48,7 +48,6 @@ const Settings = () => {
       const response = await api.get("/auth/profile");
       setProfile(response.data);
     } catch (error) {
-      console.error("Error fetching profile:", error);
       toast.error("Failed to load profile");
     } finally {
       setLoading(false);

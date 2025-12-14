@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 import SkillCard from "../components/SkillCard";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Skills = () => {
   const [skills, setSkills] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
+  const skillsGridRef = useRef(null);
 
   useEffect(() => {
     fetchSkills();
@@ -19,11 +24,29 @@ const Skills = () => {
       setSkills(data);
     } catch (error) {
       toast.error("Failed to load skills");
-      console.error(error);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!loading && skills.length > 0 && skillsGridRef.current) {
+      gsap.fromTo(".skill-item-gsap",
+        {
+          scale: 0.5,
+          opacity: 0,
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.08,
+          ease: "back.out(1.7)",
+          clearProps: "all",
+        }
+      );
+    }
+  }, [loading, skills, activeCategory]);
 
   const categories = [
     { id: "all", label: "All Skills" },
@@ -104,16 +127,11 @@ const Skills = () => {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div ref={skillsGridRef} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {filteredSkills.map((skill, index) => (
-                <motion.div
-                  key={skill._id}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                >
+                <div key={skill._id} className="skill-item-gsap">
                   <SkillCard skill={skill} />
-                </motion.div>
+                </div>
               ))}
             </div>
           )}

@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   FiBriefcase,
   FiCalendar,
@@ -15,9 +17,12 @@ import {
 import api from "../utils/api";
 import toast from "react-hot-toast";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Experience = () => {
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
+  const timelineRef = useRef(null);
 
   useEffect(() => {
     const fetchExperiences = async () => {
@@ -32,6 +37,29 @@ const Experience = () => {
     };
     fetchExperiences();
   }, []);
+
+  useEffect(() => {
+    if (!loading && experiences.length > 0 && timelineRef.current) {
+      gsap.fromTo(".experience-card-gsap",
+        {
+          x: (index) => (index % 2 === 0 ? -100 : 100),
+          opacity: 0,
+        },
+        {
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: "top 80%",
+          },
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: "power3.out",
+          clearProps: "all",
+        }
+      );
+    }
+  }, [loading, experiences]);
 
   // Format date to readable format
   const formatDate = (dateString) => {
@@ -137,19 +165,16 @@ const Experience = () => {
                     </div>
 
                     {/* Zigzag Timeline */}
-                    <div className="relative">
+                    <div ref={timelineRef} className="relative">
                       {/* Center Vertical Line - Hidden on mobile, shown on desktop */}
                       <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gray-300 dark:from-dark-600 to-transparent transform -translate-x-1/2"></div>
 
                       {categoryExps.map((exp, index) => {
                         const isLeft = index % 2 === 0;
                         return (
-                          <motion.div
+                          <div
                             key={exp._id}
-                            initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className={`relative mb-8 last:mb-0 md:w-1/2 ${
+                            className={`experience-card-gsap relative mb-8 last:mb-0 md:w-1/2 ${
                               isLeft ? "md:pr-8" : "md:ml-auto md:pl-8"
                             }`}
                           >
@@ -290,7 +315,7 @@ const Experience = () => {
                                   </div>
                                 )}
                             </motion.div>
-                          </motion.div>
+                          </div>
                         );
                       })}
                     </div>

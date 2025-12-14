@@ -33,7 +33,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen">
       <section className="section">
         <div className="container max-w-4xl">
           <motion.div
@@ -42,7 +42,7 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h1 className="text-5xl font-bold mb-4">
+            <h1 className="text-5xl font-bold mb-2">
               Get In <span className="gradient-text">Touch</span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400">
@@ -56,7 +56,7 @@ const Contact = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="glass-card p-8"
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium mb-2">Name</label>
@@ -118,7 +118,7 @@ const Contact = () => {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    rows="6"
+                    rows="3"
                     className="input pl-10 resize-none"
                     placeholder="Your message..."
                     required

@@ -37,7 +37,6 @@ const BlogDetail = () => {
         await api.post(`/blogs/${data._id}/views`);
       }
     } catch (error) {
-      console.error("Error fetching blog:", error);
       toast.error("Failed to load blog post");
     } finally {
       setLoading(false);

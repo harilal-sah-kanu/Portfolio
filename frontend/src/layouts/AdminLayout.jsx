@@ -8,7 +8,6 @@ import {
   FiSettings,
   FiLogOut,
   FiBriefcase,
-  FiCode,
 } from "react-icons/fi";
 import useAuthStore from "../store/authStore";
 import toast from "react-hot-toast";
@@ -29,7 +28,6 @@ const AdminLayout = () => {
     { path: "/admin/projects", icon: FiFolder, label: "Projects" },
     { path: "/admin/skills", icon: FiAward, label: "Skills" },
     { path: "/admin/experiences", icon: FiBriefcase, label: "Experience" },
-    { path: "/admin/coding-profiles", icon: FiCode, label: "Coding Profiles" },
     { path: "/admin/blogs", icon: FiBook, label: "Blogs" },
     { path: "/admin/contacts", icon: FiMail, label: "Contacts" },
     { path: "/admin/settings", icon: FiSettings, label: "Settings" },

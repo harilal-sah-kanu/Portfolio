@@ -24,7 +24,7 @@ const CodingProfilesSection = () => {
       const response = await api.get("/coding-profiles");
       setProfiles(response.data.filter((p) => p.enabled));
     } catch (error) {
-      console.error("Error fetching coding profiles:", error);
+      // Silent error handling
     } finally {
       setLoading(false);
     }
@@ -114,62 +114,14 @@ const CodingProfilesSection = () => {
               </div>
 
               {/* Platform Name */}
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white capitalize mb-2">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white capitalize">
                 {profile.platform}
               </h3>
-
-              {/* Stats */}
-              <div className="relative">
-                {profile.stats?.totalSolved > 0 ? (
-                  <>
-                    <p className="text-2xl font-bold text-primary-600 mb-1">
-                      {profile.stats.totalSolved}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Problems
-                    </p>
-                  </>
-                ) : profile.stats?.rating > 0 ? (
-                  <>
-                    <p className="text-2xl font-bold text-primary-600 mb-1">
-                      {profile.stats.rating}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Rating
-                    </p>
-                  </>
-                ) : profile.stats?.totalRepos > 0 ? (
-                  <>
-                    <p className="text-2xl font-bold text-primary-600 mb-1">
-                      {profile.stats.totalRepos}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Repos
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-lg font-bold text-gray-500 dark:text-gray-400 mb-1">
-                      @{profile.username}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                      View Profile
-                    </p>
-                  </>
-                )}
-              </div>
 
               {/* External link icon */}
               <FiExternalLink className="absolute top-4 right-4 text-gray-400 group-hover:text-primary-600 transition-colors" />
             </motion.a>
           ))}
-        </div>
-
-        {/* View Analytics Button */}
-        <div className="text-center">
-          <Link to="/analytics" className="btn-primary inline-block">
-            View Detailed Analytics
-          </Link>
         </div>
       </div>
     </section>

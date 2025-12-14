@@ -7,13 +7,17 @@ import {
   FiArrowDown,
   FiArrowRight,
 } from "react-icons/fi";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 import Hero from "../components/Hero";
 import ProjectCard from "../components/ProjectCard";
 import SkillCard from "../components/SkillCard";
 import CodingProfilesSection from "../components/CodingProfilesSection";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const [featuredProjects, setFeaturedProjects] = useState([]);
@@ -23,6 +27,9 @@ const Home = () => {
     totalProjects: 0,
     yearsExperience: 0,
   });
+
+  const projectsRef = useRef(null);
+  const skillsRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +66,6 @@ const Home = () => {
           yearsExperience: yearsExperience > 0 ? yearsExperience : 1,
         });
       } catch (error) {
-        console.error("Error fetching data:", error);
         toast.error("Failed to load content");
       } finally {
         setLoading(false);
@@ -69,13 +75,60 @@ const Home = () => {
     fetchData();
   }, []);
 
+  // GSAP ScrollTrigger animations
+  useEffect(() => {
+    if (!loading && featuredProjects.length > 0 && projectsRef.current) {
+      gsap.fromTo(".project-card-gsap",
+        {
+          y: 100,
+          opacity: 0,
+        },
+        {
+          scrollTrigger: {
+            trigger: projectsRef.current,
+            start: "top 80%",
+          },
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: "power3.out",
+          clearProps: "all",
+        }
+      );
+    }
+  }, [loading, featuredProjects]);
+
+  useEffect(() => {
+    if (!loading && skills.length > 0 && skillsRef.current) {
+      gsap.fromTo(".skill-card-gsap",
+        {
+          scale: 0.8,
+          opacity: 0,
+        },
+        {
+          scrollTrigger: {
+            trigger: skillsRef.current,
+            start: "top 80%",
+          },
+          scale: 1,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "back.out(1.7)",
+          clearProps: "all",
+        }
+      );
+    }
+  }, [loading, skills]);
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <Hero />
 
       {/* Featured Projects Section */}
-      <section className="section bg-gray-50 dark:bg-dark-800">
+      <section ref={projectsRef} className="section bg-gray-50 dark:bg-dark-800">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -108,15 +161,9 @@ const Home = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {featuredProjects.map((project, index) => (
-                <motion.div
-                  key={project._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
+                <div key={project._id} className="project-card-gsap">
                   <ProjectCard project={project} />
-                </motion.div>
+                </div>
               ))}
             </div>
           )}
@@ -130,7 +177,7 @@ const Home = () => {
       </section>
 
       {/* Skills Section */}
-      <section className="section">
+      <section ref={skillsRef} className="section">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -162,15 +209,9 @@ const Home = () => {
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {skills.map((skill, index) => (
-                <motion.div
-                  key={skill._id}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                >
+                <div key={skill._id} className="skill-card-gsap">
                   <SkillCard skill={skill} />
-                </motion.div>
+                </div>
               ))}
             </div>
           )}
@@ -187,7 +228,7 @@ const Home = () => {
       <CodingProfilesSection />
 
       {/* CTA Section - Minimalistic */}
-      <section className="section relative overflow-hidden bg-white dark:bg-dark-900">
+      <section className="py-12 md:py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-white dark:bg-dark-900">
         <div className="container relative z-10 px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -22,7 +22,7 @@ const Footer = () => {
         const { data } = await api.get("/auth/profile");
         setProfile(data);
       } catch (error) {
-        console.error("Failed to load profile");
+        // Silent error handling
       }
     };
     fetchProfile();

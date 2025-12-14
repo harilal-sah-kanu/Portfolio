@@ -12,7 +12,6 @@ import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Skills from "./pages/Skills";
 import Experience from "./pages/Experience";
-import Analytics from "./pages/Analytics";
 import CodingStats from "./pages/CodingStats";
 import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
@@ -24,7 +23,6 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import AdminProjects from "./pages/admin/Projects";
 import AdminSkills from "./pages/admin/Skills";
 import AdminExperiences from "./pages/admin/Experiences";
-import AdminCodingProfiles from "./pages/admin/CodingProfiles";
 import AdminBlogs from "./pages/admin/Blogs";
 import AdminContacts from "./pages/admin/Contacts";
 import AdminSettings from "./pages/admin/Settings";
@@ -53,7 +51,6 @@ function App() {
         <Route path="projects/:id" element={<ProjectDetail />} />
         <Route path="skills" element={<Skills />} />
         <Route path="experience" element={<Experience />} />
-        <Route path="analytics" element={<Analytics />} />
         <Route path="coding-stats" element={<CodingStats />} />
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:id" element={<BlogDetail />} />
@@ -76,7 +73,6 @@ function App() {
         <Route path="projects" element={<AdminProjects />} />
         <Route path="skills" element={<AdminSkills />} />
         <Route path="experiences" element={<AdminExperiences />} />
-        <Route path="coding-profiles" element={<AdminCodingProfiles />} />
         <Route path="blogs" element={<AdminBlogs />} />
         <Route path="contacts" element={<AdminContacts />} />
         <Route path="settings" element={<AdminSettings />} />
